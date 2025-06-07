@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Illuminate\Support\Facades\Auth;
-
 class PostController extends Controller
 {
     public function store(StoreUpdatePostRequest $request)
@@ -21,8 +19,10 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::all();
-        return PostResource::collection($posts);
+        $posts = PostResource::collection(Post::all());
+        return response()->json([
+            'posts' => $posts
+        ]);
     }
 
     public function show(Post $post) {
