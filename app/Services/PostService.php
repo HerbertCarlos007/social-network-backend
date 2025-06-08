@@ -23,7 +23,8 @@ class PostService
 
     public function index()
     {
-        return $this->postRepository->index();
+        $posts = $this->postRepository->index();
+        return PostResource::collection($posts);
     }
 
     public function show(Post $post): PostResource

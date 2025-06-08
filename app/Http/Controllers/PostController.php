@@ -24,8 +24,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = $this->postService->index();
-        return response()->json(['posts' => $posts]);
+        return $this->postService->index();
     }
 
     public function show(Post $post) {
