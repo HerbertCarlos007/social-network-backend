@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\DTO\PostDTO;
+use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUpdatePostRequest extends FormRequest
@@ -25,5 +27,14 @@ class StoreUpdatePostRequest extends FormRequest
             'content' => ['required', 'string'],
             'image_post_url' => ['nullable', 'url']
         ];
+    }
+
+    public function toDTO(): PostDTO
+    {
+        return new PostDTO(
+            content: $this->validated('content'),
+            image_post_url: $this->validated('image_post_url'),
+            user_id: auth()->id()
+        );
     }
 }

@@ -8,10 +8,9 @@ class PostController extends Controller
 {
     public function store(StoreUpdatePostRequest $request)
     {
-        $data = $request->validated();
-        $data['user_id'] = auth()->id();
-        $post = Post::create($data);
 
+        $dto = $request->toDTO();
+        $post = Post::create($dto->toArray());
         return response()->json([
             'post' => new PostResource($post)
         ], 201);
@@ -30,8 +29,10 @@ class PostController extends Controller
     }
 
     public function update(StoreUpdatePostRequest $request, Post $post) {
-        $data = $request->validated();
-        $post->update($data);
+
+        $dto = $request->toDTO();
+        $post->update($dto->toArray());
+
         return new PostResource($post);
     }
 
