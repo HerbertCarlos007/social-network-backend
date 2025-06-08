@@ -4,40 +4,42 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Repositories\Contracts\PostRepositoryInterface;
+use App\Services\PostService;
+
 class PostController extends Controller
 {
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
+
     public function store(StoreUpdatePostRequest $request)
     {
-
-        $dto = $request->toDTO();
-        $post = Post::create($dto->toArray());
+        $post = $this->postService->store($request);
         return response()->json([
-            'post' => new PostResource($post)
-        ], 201);
+            'post' => $post
+        ],201);
     }
 
     public function index()
     {
-        $posts = PostResource::collection(Post::with('user')->get());
-        return response()->json([
-            'posts' => $posts
-        ]);
+        $posts = $this->postService->index();
+        return response()->json(['posts' => $posts]);
     }
 
     public function show(Post $post) {
-        return new PostResource($post);
+        return $this->postService->show($post);
     }
 
-    public function update(StoreUpdatePostRequest $request, Post $post) {
-
-        $dto = $request->toDTO();
-        $post->update($dto->toArray());
-
-        return new PostResource($post);
+    public function update(StoreUpdatePostRequest $request, Post $post)
+    {
+        return $this->postService->update($request, $post);
     }
 
-    public function destroy(Post $post) {
-        $post->delete();
+    public function destroy(Post $post)
+    {
+        $this->postService->destroy($post);
         return response()->noContent();
     }
 }
