@@ -24,7 +24,7 @@ class StoreUpdatePostRequest extends FormRequest
     {
         return [
             'content' => ['required', 'string'],
-            'image_post_url' => ['nullable', 'url']
+            'image_post_url' => ['nullable', 'image', 'max:2048'],
         ];
     }
 

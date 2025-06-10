@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Repositories\Contracts\PostRepositoryInterface;
+use Illuminate\Support\Facades\Storage;
 
 class PostService
 {
@@ -18,7 +19,17 @@ class PostService
 
     public function store(StoreUpdatePostRequest $request): PostResource
     {
+        $postImagePath = null;
+
+        if (request()->hasFile('image_post_url')) {
+            $postImagePath = request()->file('image_post_url')->store('images', 's3');
+            Storage::disk('s3')->setVisibility($postImagePath, 'public');
+
+            $postImageUrl = Storage::disk('s3')->url($postImagePath);
+        }
+
         $dto = $request->toDTO();
+        $dto->image_post_url = $postImageUrl;
         $post = $this->postRepository->create($dto);
         return new PostResource($post);
     }
