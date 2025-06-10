@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\DTO\PostDTO;
-use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUpdatePostRequest extends FormRequest

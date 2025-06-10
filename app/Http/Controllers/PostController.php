@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\StoreUpdatePostRequest;
-use App\Http\Resources\PostResource;
 use App\Models\Post;
-use App\Repositories\Contracts\PostRepositoryInterface;
 use App\Services\PostService;
 
 class PostController extends Controller
 {
+    private PostService $postService;
+
     public function __construct(PostService $postService)
     {
         $this->postService = $postService;
