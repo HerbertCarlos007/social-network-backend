@@ -16,10 +16,7 @@ class PostController extends Controller
 
     public function store(StoreUpdatePostRequest $request)
     {
-        $post = $this->postService->store($request);
-        return response()->json([
-            'post' => $post
-        ],201);
+        return $this->postService->store($request);
     }
 
     public function index()
