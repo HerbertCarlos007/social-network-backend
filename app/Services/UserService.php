@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
@@ -20,7 +21,18 @@ class UserService
 
     public function store(StoreUpdateUserRequest $request)
     {
+
+        $avatarPath = null;
+
+        if ($request->hasFile('avatar_url')) {
+            $avatarPath = request()->file('avatar_url')->store('avatars', 's3');
+            Storage::disk('s3')->setVisibility($avatarPath, 'public');
+
+            $avatarUrl = Storage::disk('s3')->url($avatarPath);
+        }
+
         $userDto = $request->toDTO();
+        $userDto->avatar_url = $avatarUrl;
         $userDto->password = Hash::make($userDto->password);
         $user =  $this->userRepository->create($userDto);
         $token = $user->createToken('api_token')->plainTextToken;

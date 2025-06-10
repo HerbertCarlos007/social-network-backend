@@ -7,7 +7,7 @@ class UserDTO
     public function __construct(
         public string $name,
         public string $email,
-        public string $avatar_url,
+        public ?string $avatar_url,
         public string $password,
     ){}
 
