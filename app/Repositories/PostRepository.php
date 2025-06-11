@@ -16,7 +16,7 @@ class PostRepository implements PostRepositoryInterface
 
     public function index(): Collection
     {
-        return Post::with('user')->get();
+        return Post::with('user')->orderByDesc('id')->get();
     }
 
     public function show(Post $post): Post
