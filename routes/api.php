@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,4 +20,6 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/posts/{post}', [PostController::class, 'show']);
     Route::put('/posts/{post}', [PostController::class, 'update']);
     Route::delete('/posts/{post}', [PostController::class, 'destroy']);
+
+    Route::post('/likes', [LikeController::class, 'store']);
 });
