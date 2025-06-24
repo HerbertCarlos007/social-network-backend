@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
@@ -22,4 +23,9 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::delete('/posts/{post}', [PostController::class, 'destroy']);
 
     Route::post('/likes', [LikeController::class, 'store']);
+    Route::post('/comments', [CommentController::class, 'store']);
+    Route::get('/comments', [CommentController::class, 'index']);
+    Route::get('/comments/{comment}', [CommentController::class, 'show']);
+    Route::put('/comments/{comment}', [CommentController::class, 'update']);
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 });
