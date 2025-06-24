@@ -18,7 +18,7 @@ class PostRepository implements PostRepositoryInterface
     {
         $userId = auth()->id();
 
-        $posts = Post::with('user', 'likes')
+        $posts = Post::with('user', 'likes', 'comments')
             ->orderByDesc('id')
             ->get()
             ->map(function ($post) use ($userId) {
