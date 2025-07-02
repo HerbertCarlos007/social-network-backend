@@ -18,6 +18,7 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'content' => $this->content,
             'image_post_url' => $this->image_post_url,
+            'avatar_url' => $this->user->avatar_url,
             'user_id' => $this->user_id,
             'liked_by_user' => $this->liked_by_user,
             'count_likes' => $this->count_likes,
