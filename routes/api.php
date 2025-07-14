@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
@@ -29,4 +30,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/comments/{comment}', [CommentController::class, 'show']);
     Route::put('/comments/{comment}', [CommentController::class, 'update']);
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
+
+    Route::post('/friend-request/send/{toUserId}', [FriendshipController::class, 'sendFriendRequest']);
+    Route::post('/friend-request/accept/{$senderId}', [FriendshipController::class, 'acceptFriendRequest']);
+    Route::post('/friend-request/reject/{$senderId}', [FriendshipController::class, 'rejectFriendRequest']);
+    Route::get('/friend-requests', [FriendshipController::class, 'getFriendRequests']);
+
 });
