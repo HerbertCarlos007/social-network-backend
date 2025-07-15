@@ -1,3 +1,23 @@
+#version: "3.7"
+#
+#services:
+#  db:
+#    image: postgres
+#    container_name: postgres_db
+#    restart: always
+#    ports:
+#      - 5432:5432
+#    environment:
+#      - POSTGRES_USER=user
+#      - POSTGRES_PASSWORD=123
+#      - POSTGRES_DB=social_network_backend
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+#
+#volumes:
+#  pgdata:
+#    driver: local
+
 version: "3.7"
 
 services:
@@ -6,7 +26,7 @@ services:
     container_name: postgres_db
     restart: always
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=123
@@ -14,6 +34,26 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=social_network_backend
+      - DB_USERNAME=user
+      - DB_PASSWORD=123
+
 volumes:
   pgdata:
-    driver: local
+
