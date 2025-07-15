@@ -13,8 +13,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
     php -r "unlink('composer-setup.php');"
 
-# Instala as dependências do Laravel (vendor)
-RUN composer install --optimize-autoloader --no-dev
 
 RUN chmod -R 775 storage bootstrap/cache
 
