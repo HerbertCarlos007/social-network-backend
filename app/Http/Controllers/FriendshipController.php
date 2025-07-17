@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use App\Enums\FriendshipStatus;
 use App\Models\Friendship;
 use Illuminate\Http\Request;
+use function Pest\Laravel\get;
 
 class FriendshipController extends Controller
 {
+    public function getAllFriends( )
+    {
+        $requests = Friendship::with('user')
+            ->where('status', FriendshipStatus::ACCEPTED)
+            ->get();
+
+        return response()->json($requests);
+    }
+
     public function getFriendRequests()
     {
         $userId = auth()->id();
@@ -81,5 +91,23 @@ class FriendshipController extends Controller
         $friendship->save();
 
         return response()->json(['message' => 'Pedido rejeitado com sucesso.']);
+    }
+
+    public function deleteFriend ($senderId)
+    {
+        $receiverId = auth()->id();
+
+        $friendship = Friendship::where('user_id', $senderId)
+            ->where('friend_id', $receiverId)
+            ->where('status', FriendshipStatus::ACCEPTED)
+            ->first();
+
+        if (!$friendship) {
+            return response()->json(['message' => 'Amizade não encontrada.'], 404);
+        }
+
+        $friendship->delete();
+
+        return response()->json(['message' => 'Amizade deletada com sucesso.']);
     }
 }
