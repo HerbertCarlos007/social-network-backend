@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 
     Route::get('/friends', [FriendshipController::class, 'getAllFriends']);
+    Route::get('/non-friends', [FriendshipController::class, 'getNonFriends']);
     Route::post('/friend-request/send/{toUserId}', [FriendshipController::class, 'sendFriendRequest']);
     Route::post('/friend-request/accept/{senderId}', [FriendshipController::class, 'acceptFriendRequest']);
     Route::post('/friend-request/reject/{senderId}', [FriendshipController::class, 'rejectFriendRequest']);
