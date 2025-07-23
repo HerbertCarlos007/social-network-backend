@@ -13,11 +13,21 @@ class FriendshipController extends Controller
 {
     public function getAllFriends()
     {
-        $requests = Friendship::with('user')
-            ->where('status', FriendshipStatus::ACCEPTED)
-            ->get();
+        $userId = auth()->id();
 
-        return response()->json($requests);
+        $sent = Friendship::where('status', FriendshipStatus::ACCEPTED)
+            ->where('user_id', $userId)
+            ->with('friend')
+            ->get()
+            ->pluck('friend');
+
+        $received = Friendship::where('status', FriendshipStatus::ACCEPTED)
+            ->where('friend_id', $userId)
+            ->with('user')
+            ->get()
+            ->pluck('user');
+
+        return response()->json($sent->merge($received));
     }
 
     public function getNonFriends()
