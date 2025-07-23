@@ -26,12 +26,12 @@ class FriendshipController extends Controller
 
         $friends = DB::table('friendships')
             ->select('friend_id as id')
-            ->where('status', FriendshipStatus::ACCEPTED)
+            ->whereIn('status', [FriendshipStatus::ACCEPTED, FriendshipStatus::PENDING])
             ->where('user_id', $userId)
             ->union(
                 DB::table('friendships')
                     ->select('user_id as id')
-                    ->where('status', FriendshipStatus::ACCEPTED)
+                    ->whereIn('status', [FriendshipStatus::ACCEPTED, FriendshipStatus::PENDING])
                     ->where('friend_id', $userId)
             )
             ->pluck('id');
