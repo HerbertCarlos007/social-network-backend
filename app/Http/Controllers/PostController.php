@@ -24,6 +24,11 @@ class PostController extends Controller
         return $this->postService->index();
     }
 
+    public function userPosts()
+    {
+        return $this->postService->userPosts();
+    }
+
     public function show(Post $post) {
         return $this->postService->show($post);
     }

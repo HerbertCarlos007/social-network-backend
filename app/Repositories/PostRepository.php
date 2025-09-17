@@ -30,6 +30,23 @@ class PostRepository implements PostRepositoryInterface
         return $posts;
     }
 
+    public function userPosts(): Collection
+    {
+        $userId = auth()->id();
+
+        $posts = Post::with('user', 'likes', 'comments')
+            ->where('user_id', $userId)
+            ->orderByDesc('id')
+            ->get()
+            ->map(function ($post) use ($userId) {
+                $post->liked_by_user = $post->likes->contains('user_id', $userId);
+                $post->count_likes = $post->likes->count();
+                return $post;
+            });
+
+        return $posts;
+    }
+
     public function show(Post $post): Post
     {
         return $post;

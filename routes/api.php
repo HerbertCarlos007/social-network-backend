@@ -19,6 +19,7 @@ Route::get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function(){
     Route::post('/posts', [PostController::class, 'store']);
     Route::get('/posts', [PostController::class, 'index']);
+    Route::get('/user-posts', [PostController::class, 'userPosts']);
     Route::get('/posts/{post}', [PostController::class, 'show']);
     Route::put('/posts/{post}', [PostController::class, 'update']);
     Route::delete('/posts/{post}', [PostController::class, 'destroy']);

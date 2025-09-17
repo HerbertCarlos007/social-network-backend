@@ -40,6 +40,12 @@ class PostService
         return PostResource::collection($posts);
     }
 
+    public function userPosts()
+    {
+        $posts = $this->postRepository->userPosts();
+        return PostResource::collection($posts);
+    }
+
     public function show(Post $post): PostResource
     {
         $post = $this->postRepository->show($post);
