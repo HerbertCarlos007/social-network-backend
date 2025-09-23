@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -72,5 +73,10 @@ class User extends Authenticatable
     public function friendRequestsReceived(): HasMany
     {
         return $this->hasMany(Friendship::class, 'friend_id');
+    }
+
+    public function aboutProfile(): HasOne
+    {
+        return $this->hasOne(AboutProfile::class);
     }
 }
