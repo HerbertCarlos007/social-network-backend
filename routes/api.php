@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutProfileController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\LikeController;
@@ -39,5 +40,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/friend-request/reject/{senderId}', [FriendshipController::class, 'rejectFriendRequest']);
     Route::delete('/friend-delete/{senderId}', [FriendshipController::class, 'deleteFriend']);
     Route::get('/friend-requests', [FriendshipController::class, 'getFriendRequests']);
+
+    Route::post('/about-me', [AboutProfileController::class, 'store']);
+    Route::get('/about-me', [AboutProfileController::class, 'index']);
 
 });
