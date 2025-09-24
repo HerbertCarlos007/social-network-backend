@@ -43,5 +43,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::post('/about-me', [AboutProfileController::class, 'store']);
     Route::get('/about-me', [AboutProfileController::class, 'index']);
+    Route::put('/about-me/{aboutProfile}', [AboutProfileController::class, 'update']);
 
 });
